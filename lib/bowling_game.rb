@@ -1,6 +1,5 @@
+require_relative 'errors'
 require_relative 'frame'
-
-class GameOver < RuntimeError; end
 
 class BowlingGame
   attr_reader :frames, :current_frame

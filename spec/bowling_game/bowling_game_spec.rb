@@ -46,7 +46,7 @@ describe BowlingGame do
       it 'raises GameOver' do
         expect {
           game.roll 5
-        }.to raise_error
+        }.to raise_error GameOver
       end
     end
   end

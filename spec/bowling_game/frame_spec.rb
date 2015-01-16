@@ -12,6 +12,30 @@ describe Frame do
       frame.add_score 3
       expect(frame.scores.last).to eq 3
     end
+
+    context 'when not last frame' do
+      before { allow(frame).to receive(:last?).and_return false }
+
+      context 'when the pins knocked down is greater than 10' do
+        it 'raises an error' do
+          expect {
+            frame.add_score 12
+          }.to raise_error /Only a total of 10 pins can be knocked/
+        end
+      end
+
+      context 'when the sum of pins knocked down plus the score of the frame is greater than 10' do
+        before do
+          allow(frame).to receive(:sum_of_scores).and_return 9
+        end
+
+        it 'raises an error' do
+          expect {
+            frame.add_score 2
+          }.to raise_error /Only a total of 10 pins can be knocked/
+        end
+      end
+    end
   end
 
   describe '#sum_of_scores' do

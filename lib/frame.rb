@@ -14,6 +14,8 @@ class Frame
   end
 
   def add_score(pins_knocked_down)
+    raise InvalidNumberOfPins, sum_of_scores unless valid_number_of_pins?(pins_knocked_down)
+
     @scores << pins_knocked_down
   end
 
@@ -22,7 +24,7 @@ class Frame
   end
 
   def sum_of_scores
-    scores.inject :+
+    scores.inject(:+).to_i
   end
 
   def bonus
@@ -55,5 +57,15 @@ class Frame
 
   def last?
     successor.nil?
+  end
+
+  private
+
+  def valid_number_of_pins?(pins_knocked_down)
+    if last?
+      true
+    else
+      (sum_of_scores + pins_knocked_down <= STRIKE_SCORE)
+    end
   end
 end
