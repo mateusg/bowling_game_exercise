@@ -20,6 +20,8 @@ class BowlingGame
   private
 
   def next_frame!
+    @current_frame.successor = @frames.peek if @current_frame
+
     @current_frame = @frames.next
   end
 end

@@ -23,12 +23,19 @@ describe BowlingGame do
     context 'when current frame gets full' do
       let!(:successor_frame) { frames.peek }
 
-      before do
+      it 'sets successor of the current frame' do
+        expect(current_frame.successor).to be_nil
+
         game.roll 7
         game.roll 3
+
+        expect(current_frame.successor).to eq successor_frame
       end
 
       it 'points to the successor frame' do
+        game.roll 7
+        game.roll 3
+
         expect(current_frame).to eq successor_frame
       end
     end

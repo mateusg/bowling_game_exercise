@@ -1,5 +1,6 @@
 class Frame
   attr_reader :scores
+  attr_accessor :successor
 
   MAX_NUMBER_OF_SCORES = 2
   STRIKE_SCORE = 10
@@ -14,6 +15,16 @@ class Frame
 
   def total_score
     scores.inject &:+
+  end
+
+  def bonus
+    if strike?
+      successor.scores.slice(0..1).map(&:to_i).inject &:+
+    elsif spare?
+      successor.scores.first.to_i
+    else
+      0
+    end
   end
 
   def full?
