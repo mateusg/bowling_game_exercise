@@ -14,7 +14,11 @@ class Frame
   end
 
   def total_score
-    scores.inject &:+
+    sum_of_scores + bonus
+  end
+
+  def sum_of_scores
+    scores.inject(&:+)
   end
 
   def bonus
@@ -36,6 +40,6 @@ class Frame
   end
 
   def spare?
-    total_score == STRIKE_SCORE
+    sum_of_scores == STRIKE_SCORE
   end
 end

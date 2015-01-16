@@ -14,14 +14,37 @@ describe Frame do
     end
   end
 
-  describe '#total_score' do
+  describe '#sum_of_scores' do
     before do
       frame.add_score 4
       frame.add_score 5
     end
 
     it 'sums the scores' do
-      expect(frame.total_score).to eq 9
+      expect(frame.sum_of_scores).to eq 9
+    end
+  end
+
+  describe '#total_score' do
+    before do
+      frame.add_score 4
+      allow(frame).to receive(:bonus).and_return bonus
+    end
+
+    context 'when bonus is zero' do
+      let(:bonus) { 0 }
+
+      it 'is the sum of scores' do
+        expect(frame.total_score).to eq frame.sum_of_scores
+      end
+    end
+
+    context 'when bonus is not zero' do
+      let(:bonus) { 5 }
+
+      it 'is the sum of scores and the bonus' do
+        expect(frame.total_score).to eq frame.sum_of_scores + bonus
+      end
     end
   end
 
@@ -67,16 +90,22 @@ describe Frame do
   end
 
   describe '#spare?' do
-    context 'when total score is 10' do
-      before { allow(frame).to receive(:total_score).and_return 10 }
+    context 'when the sum of scores is 10' do
+      before do
+        frame.add_score 8
+        frame.add_score 2
+      end
 
       it 'is true' do
         expect(frame.spare?).to be true
       end
     end
 
-    context 'when total score is not 10' do
-      before { allow(frame).to receive(:total_score).and_return 8 }
+    context 'when the sum of scores is not 10' do
+      before do
+        frame.add_score 8
+        frame.add_score 1
+      end
 
       it 'is false' do
         expect(frame.spare?).to be false
