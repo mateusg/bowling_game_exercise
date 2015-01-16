@@ -2,7 +2,8 @@ class Frame
   attr_reader :scores
   attr_accessor :successor
 
-  MAX_NUMBER_OF_SCORES = 2
+  STANDARD_NUMBER_OF_SCORES = 2
+  MAX_NUMBER_OF_SCORES = 3
   STRIKE_SCORE = 10
 
   def initialize
@@ -32,7 +33,13 @@ class Frame
   end
 
   def over?
-    scores.size >= MAX_NUMBER_OF_SCORES
+    if last? && (strike? || spare?)
+      scores.size >= MAX_NUMBER_OF_SCORES
+    elsif strike?
+      true
+    else
+      scores.size >= STANDARD_NUMBER_OF_SCORES
+    end
   end
 
   def strike?
@@ -41,5 +48,9 @@ class Frame
 
   def spare?
     sum_of_scores == STRIKE_SCORE
+  end
+
+  def last?
+    successor.nil?
   end
 end

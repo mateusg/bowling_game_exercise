@@ -82,24 +82,68 @@ describe Frame do
   end
 
   describe '#over?' do
-    context 'when has 1 score' do
-      before do
-        frame.add_score 9
+    context 'when not on the last frame' do
+      before { allow(frame).to receive(:last?).and_return false }
+
+      context 'when rolls a strike' do
+        before { frame.add_score 10 }
+
+        it 'is true' do
+          expect(frame.over?).to be true
+        end
       end
 
-      it 'is false' do
-        expect(frame.over?).to be false
+      context 'when has 1 score that is not a strike' do
+        before { frame.add_score 9 }
+
+        it 'is false' do
+          expect(frame.over?).to be false
+        end
+      end
+
+      context 'when has 2 scores' do
+        before do
+          frame.add_score 4
+          frame.add_score 2
+        end
+
+        it 'is true' do
+          expect(frame.over?).to be true
+        end
       end
     end
 
-    context 'when has 2 scores' do
-      before do
-        frame.add_score 4
-        frame.add_score 2
+    context 'when on the last frame' do
+      before { allow(frame).to receive(:last?).and_return true }
+
+      context 'when rolls a strike' do
+        before do
+          frame.add_score 10
+        end
+
+        it 'is allowed to roll 2 extra times' do
+          expect(frame.over?).to be false
+
+          frame.add_score 4
+          expect(frame.over?).to be false
+
+          frame.add_score 10
+          expect(frame.over?).to be true
+        end
       end
 
-      it 'is true' do
-        expect(frame.over?).to be true
+      context 'when rolls a spare' do
+        before do
+          frame.add_score 6
+          frame.add_score 4
+        end
+
+        it 'is allowed to roll 1 extra time' do
+          expect(frame.over?).to be false
+
+          frame.add_score 10
+          expect(frame.over?).to be true
+        end
       end
     end
   end
@@ -142,6 +186,26 @@ describe Frame do
 
       it 'is false' do
         expect(frame.spare?).to be false
+      end
+    end
+  end
+
+  describe '#last?' do
+    before { frame.successor = successor }
+
+    context 'when has no successor' do
+      let(:successor) { nil }
+
+      it 'is true' do
+        expect(frame.last?).to be true
+      end
+    end
+
+    context 'when has successor' do
+      let(:successor) { double }
+
+      it 'is false' do
+        expect(frame.last?).to be false
       end
     end
   end
