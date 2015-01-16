@@ -4,4 +4,4 @@ if ENV['COVERAGE']
 end
 
 require 'bundler/setup'
-require 'game'
+require 'bowling_game'

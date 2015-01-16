@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Game do
+describe BowlingGame do
   let(:game) { described_class.new }
   let(:frames) { game.frames }
   let(:current_frame) { game.current_frame }

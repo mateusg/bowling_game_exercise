@@ -1,6 +1,6 @@
 require_relative 'frame'
 
-class Game
+class BowlingGame
   attr_reader :frames, :current_frame
 
   def initialize
