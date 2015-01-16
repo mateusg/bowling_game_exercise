@@ -1,6 +1,8 @@
 class Frame
   attr_reader :scores
 
+  MAX_NUMBER_OF_SCORES = 2
+
   def initialize
     @scores = []
   end
@@ -10,6 +12,6 @@ class Frame
   end
 
   def full?
-    scores.size >= 2
+    scores.size >= MAX_NUMBER_OF_SCORES
   end
 end
