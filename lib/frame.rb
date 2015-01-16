@@ -1,5 +1,4 @@
 class Frame
-  attr_reader :scores
   attr_accessor :successor
 
   STANDARD_NUMBER_OF_SCORES = 2
@@ -8,6 +7,10 @@ class Frame
 
   def initialize
     @scores = []
+  end
+
+  def scores
+    @scores.dup
   end
 
   def add_score(pins_knocked_down)
