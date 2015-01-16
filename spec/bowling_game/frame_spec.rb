@@ -48,14 +48,14 @@ describe Frame do
     end
   end
 
-  describe '#full?' do
+  describe '#over?' do
     context 'when has 1 score' do
       before do
         frame.add_score 9
       end
 
       it 'is false' do
-        expect(frame.full?).to be false
+        expect(frame.over?).to be false
       end
     end
 
@@ -66,7 +66,7 @@ describe Frame do
       end
 
       it 'is true' do
-        expect(frame.full?).to be true
+        expect(frame.over?).to be true
       end
     end
   end

@@ -13,7 +13,7 @@ class BowlingGame
   def roll(pins_knocked_down)
     @current_frame.add_score pins_knocked_down
 
-    next_frame! if @current_frame.full?
+    next_frame! if @current_frame.over?
 
     pins_knocked_down
   end

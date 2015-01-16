@@ -31,7 +31,7 @@ class Frame
     end
   end
 
-  def full?
+  def over?
     scores.size >= MAX_NUMBER_OF_SCORES
   end
 
