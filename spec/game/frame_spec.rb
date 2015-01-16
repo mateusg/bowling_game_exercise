@@ -14,6 +14,17 @@ describe Frame do
     end
   end
 
+  describe '#total_score' do
+    before do
+      frame.add_score 4
+      frame.add_score 5
+    end
+
+    it 'sums the scores' do
+      expect(frame.total_score).to eq 9
+    end
+  end
+
   describe '#full?' do
     context 'when has 1 score' do
       before do
@@ -33,6 +44,42 @@ describe Frame do
 
       it 'is true' do
         expect(frame.full?).to be true
+      end
+    end
+  end
+
+  describe '#strike?' do
+    context 'when all pins are knocked down' do
+      before { frame.add_score 10 }
+
+      it 'is true' do
+        expect(frame.strike?).to be true
+      end
+    end
+
+    context 'when not all pins are knocked down' do
+      before { frame.add_score 9 }
+
+      it 'is false' do
+        expect(frame.strike?).to be false
+      end
+    end
+  end
+
+  describe '#spare?' do
+    context 'when total score is 10' do
+      before { allow(frame).to receive(:total_score).and_return 10 }
+
+      it 'is true' do
+        expect(frame.spare?).to be true
+      end
+    end
+
+    context 'when total score is not 10' do
+      before { allow(frame).to receive(:total_score).and_return 8 }
+
+      it 'is false' do
+        expect(frame.spare?).to be false
       end
     end
   end
