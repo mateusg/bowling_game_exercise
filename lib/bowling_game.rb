@@ -1,5 +1,7 @@
 require_relative 'frame'
 
+class GameOver < RuntimeError; end
+
 class BowlingGame
   attr_reader :frames, :current_frame
 
@@ -11,14 +13,24 @@ class BowlingGame
   end
 
   def roll(pins_knocked_down)
+    raise GameOver if over?
+
     @current_frame.add_score pins_knocked_down
 
-    next_frame! if @current_frame.over?
+    if over?
+      # puts 'GAME OVER'
+    elsif @current_frame.over?
+      next_frame!
+    end
 
     pins_knocked_down
   end
 
   private
+
+  def over?
+    @current_frame.last? && @current_frame.over?
+  end
 
   def next_frame!
     @current_frame = @frames.next

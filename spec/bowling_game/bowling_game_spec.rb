@@ -37,5 +37,17 @@ describe BowlingGame do
         expect(game.current_frame).to eq successor_frame
       end
     end
+
+    context 'when there are no more frames' do
+      before do
+        12.times { game.roll 10 }
+      end
+
+      it 'raises GameOver' do
+        expect {
+          game.roll 5
+        }.to raise_error
+      end
+    end
   end
 end
