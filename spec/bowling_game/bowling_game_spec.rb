@@ -25,13 +25,15 @@ describe BowlingGame do
       expect(current_frame.scores.last).to eq 4
     end
 
-    context 'when current frame gets full' do
+    context 'when current frame is over' do
       let!(:successor_frame) { game.current_frame.successor }
 
-      it 'points to the successor frame' do
+      before do
         game.roll 7
         game.roll 3
+      end
 
+      it 'points to the successor frame' do
         expect(game.current_frame).to eq successor_frame
       end
     end

@@ -25,6 +25,39 @@ describe Frame do
     end
   end
 
+  describe '#bonus' do
+    let(:successor) { double scores: [5, 2] }
+
+    before { allow(frame).to receive(:successor).and_return successor }
+
+    context 'when strike' do
+      before { allow(frame).to receive(:strike?).and_return true }
+
+      it "is the sum of the successor's 2 scores" do
+        expect(frame.bonus).to eq 7
+      end
+    end
+
+    context 'when spare' do
+      before { allow(frame).to receive(:spare?).and_return true }
+
+      it "is the successor's first score" do
+        expect(frame.bonus).to eq 5
+      end
+    end
+
+    context 'when not strike, nor spare' do
+      before do
+        allow(frame).to receive(:strike?).and_return false
+        allow(frame).to receive(:spare?).and_return false
+      end
+
+      it 'is zero' do
+        expect(frame.bonus).to eq 0
+      end
+    end
+  end
+
   describe '#total_score' do
     before do
       frame.add_score 4
@@ -109,39 +142,6 @@ describe Frame do
 
       it 'is false' do
         expect(frame.spare?).to be false
-      end
-    end
-  end
-
-  describe '#bonus' do
-    let(:successor) { double scores: [5, 2] }
-
-    before { allow(frame).to receive(:successor).and_return successor }
-
-    context 'when strike' do
-      before { allow(frame).to receive(:strike?).and_return true }
-
-      it "is the sum of the successor's 2 scores" do
-        expect(frame.bonus).to eq 7
-      end
-    end
-
-    context 'when spare' do
-      before { allow(frame).to receive(:spare?).and_return true }
-
-      it "is the successor's first score" do
-        expect(frame.bonus).to eq 5
-      end
-    end
-
-    context 'when not strike, nor spare' do
-      before do
-        allow(frame).to receive(:strike?).and_return false
-        allow(frame).to receive(:spare?).and_return false
-      end
-
-      it 'is zero' do
-        expect(frame.bonus).to eq 0
       end
     end
   end
