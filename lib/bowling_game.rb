@@ -6,6 +6,7 @@ class BowlingGame
   def initialize
     @frames = 10.times.map { Frame.new }.to_enum
 
+    setup_frames!
     next_frame!
   end
 
@@ -20,8 +21,15 @@ class BowlingGame
   private
 
   def next_frame!
-    @current_frame.successor = @frames.peek if @current_frame
-
     @current_frame = @frames.next
+  end
+
+  def setup_frames!
+    while true do
+      frame = @frames.next
+      frame.successor = @frames.peek
+    end
+  rescue StopIteration => e
+    @frames.rewind
   end
 end

@@ -5,9 +5,14 @@ describe BowlingGame do
   let(:frames) { game.frames }
   let(:current_frame) { game.current_frame }
 
-  it 'has 10 frames' do
+  it 'initializes 10 frames' do
     expect(frames.to_a.size).to eq 10
     expect(frames).to all be_a Frame
+  end
+
+  it "assigns for the successors first 9 frames" do
+    expect(frames.first(9).map(&:successor)).to all be_a Frame
+    expect(frames.to_a.last.successor).to be_nil
   end
 
   it 'initializes current_frame with the first' do
@@ -21,22 +26,13 @@ describe BowlingGame do
     end
 
     context 'when current frame gets full' do
-      let!(:successor_frame) { frames.peek }
-
-      it 'sets successor of the current frame' do
-        expect(current_frame.successor).to be_nil
-
-        game.roll 7
-        game.roll 3
-
-        expect(current_frame.successor).to eq successor_frame
-      end
+      let!(:successor_frame) { game.current_frame.successor }
 
       it 'points to the successor frame' do
         game.roll 7
         game.roll 3
 
-        expect(current_frame).to eq successor_frame
+        expect(game.current_frame).to eq successor_frame
       end
     end
   end
