@@ -18,12 +18,12 @@ class Frame
   end
 
   def sum_of_scores
-    scores.inject(&:+)
+    scores.inject :+
   end
 
   def bonus
     if strike?
-      successor.scores.slice(0..1).map(&:to_i).inject &:+
+      successor.scores.slice(0..1).map(&:to_i).inject :+
     elsif spare?
       successor.scores.first.to_i
     else
